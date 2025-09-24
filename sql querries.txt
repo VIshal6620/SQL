@@ -372,9 +372,9 @@ delete from dept where dept_id=2;
 
 mysql> delimiter &&
 mysql> create procedure empIn(in c int)
-     begin
-     select * from emp where id = c;
-     end &&
+    -> begin
+    -> select * from emp where id = c;
+    -> end &&
     
 mysql> set @input = 11;
 
@@ -393,15 +393,15 @@ mysql> create procedure empOut(out c int)
 mysql> call empOut(@output);
 
 mysql> select @output;    
-  	
+  
 ==========================================================  
 # Stored Procedure (inout)
 ==========================================================
 
 mysql> delimiter &&
-mysql> create procedure empInOut(int c int ,out i int)
+mysql> create procedure empInOut(inout c int)
     -> begin
-    -> select salary into c from emp where id = i;
+    -> select salary into c from emp where id = c;
     -> end &&
     
 mysql> set @inout = 1;
@@ -419,7 +419,9 @@ mysql> create function square(num int)
     -> returns int
     -> deterministic
     -> begin
-    -> return num*num;
+    -> declare result int;
+    -> set result = num * num;
+    -> return result;
     -> end &&
     
 mysql> select square(10);
